@@ -1,0 +1,172 @@
+<div class="admin-dashboard">
+    <div class="dashboard-header">
+        <div class="header-top">
+            <div class="header-title">
+                <h1>Moderator Panel</h1>
+                <div class="user-info" *ngIf="currentUser">
+                    <span class="user-greeting">Ulogirani kao:</span>
+                    <span class="user-name">{{ currentUser.name }}</span>
+                    <span class="user-role" [class]="'role-' + currentUser.role">{{
+                        getRoleDisplayName(currentUser.role)
+                        }}</span>
+                </div>
+            </div>
+        </div>
+        <nav class="dashboard-nav">
+            <button class="nav-btn" [class.active]="activeTab === 'overview'" (click)="setActiveTab('overview')"
+                role="button" tabindex="0" (keyup.enter)="setActiveTab('overview')">
+                Pregled
+            </button>
+            <button class="nav-btn" [class.active]="activeTab === 'abbreviations'"
+                (click)="setActiveTab('abbreviations')" role="button" tabindex="0"
+                (keyup.enter)="setActiveTab('abbreviations')">
+                Kratice
+            </button>
+            <button class="nav-btn" [class.active]="activeTab === 'moderation'" (click)="setActiveTab('moderation')"
+                role="button" tabindex="0" (keyup.enter)="setActiveTab('moderation')">
+                Kratice na čekanju
+            </button>
+        </nav>
+    </div>
+
+    <div class="dashboard-content">
+        <!-- Error Message -->
+        <div *ngIf="error" class="error-message">
+            <span class="error-icon">⚠️</span>
+            {{ error }}
+        </div>
+
+        <!-- Overview Tab -->
+        <div *ngIf="activeTab === 'overview'" class="tab-content overview-tab">
+            <div class="stats-grid" *ngIf="!isLoading && stats">
+                <div class="stat-card clickable" (click)="setActiveTab('abbreviations')" role="button" tabindex="0"
+                    (keyup.enter)="setActiveTab('abbreviations')" title="Pogledaj sve kratice">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-info">
+                        <h3>{{ stats.total_abbreviations }}</h3>
+                        <p>Ukupno kratica</p>
+                    </div>
+                </div>
+
+                <div class="stat-card pending clickable" (click)="setActiveTab('moderation')" role="button" tabindex="0"
+                    (keyup.enter)="setActiveTab('moderation')" title="Pogledaj kratice na čekanju">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-info">
+                        <h3>{{ stats.pending_abbreviations }}</h3>
+                        <p>Kratice na čekanju</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Categories -->
+            <div class="categories-section"
+                *ngIf="!isLoading && stats && stats.top_categories && stats.top_categories.length > 0">
+                <h3>Najpopularnije kategorije</h3>
+                <div class="categories-list">
+                    <div *ngFor="let category of stats.top_categories" class="category-item">
+                        <span class="category-name">{{ category.name }}</span>
+                        <span class="category-count">{{ category.count }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="isLoading" class="loading">Učitavanje statistika...</div>
+        </div>
+
+        <!-- Abbreviations Tab -->
+        <div *ngIf="activeTab === 'abbreviations'" class="tab-content abbreviations-tab">
+            <div class="tab-header">
+                <h2>Sve kratice</h2>
+                <div class="header-controls">
+                    <div class="search-bar">
+                        <input type="text" [(ngModel)]="abbreviationSearchTerm" placeholder="Pretraži kratice..."
+                            class="search-input" />
+                        <button class="search-btn" (click)="searchAbbreviations()">Pretraži</button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="isLoading" class="loading">Učitavanje kratica...</div>
+
+            <div *ngIf="!isLoading && filteredAbbreviations.length > 0" class="abbreviations-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kratica</th>
+                            <th>Značenje</th>
+                            <th>Kategorija</th>
+                            <th>Status</th>
+                            <th>Datum kreiranja</th>
+                            <th>Korisnik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let abbreviation of filteredAbbreviations">
+                            <td data-label="Kratica"><strong>{{ abbreviation.abbreviation }}</strong></td>
+                            <td data-label="Značenje">{{ abbreviation.meaning }}</td>
+                            <td data-label="Kategorija">
+                                <span class="category-badge">{{ abbreviation.category }}</span>
+                            </td>
+                            <td data-label="Status">
+                                <span class="status-badge" [class]="getStatusClass(abbreviation.status)">
+                                    {{ getStatusText(abbreviation.status) }}
+                                </span>
+                            </td>
+                            <td data-label="Datum kreiranja">{{ formatDate(abbreviation.created_at) }}</td>
+                            <td data-label="Korisnik">{{ abbreviation.user.name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div *ngIf="!isLoading && filteredAbbreviations.length === 0" class="empty-state">
+                <div class="empty-icon">📝</div>
+                <h3>Nema kratica</h3>
+                <p>Kratice se učitavaju ili još nisu dodane.</p>
+            </div>
+        </div>
+
+        <!-- Moderation Tab -->
+        <div *ngIf="activeTab === 'moderation'" class="tab-content moderation-tab">
+            <div class="tab-header">
+                <h2>Kratice na čekanju za odobrenje</h2>
+                <div class="pending-stats" *ngIf="pendingAbbreviations.length > 0">
+                    <span class="pending-count">{{ pendingAbbreviations.length }} kratice čekaju odobrenje</span>
+                </div>
+            </div>
+
+            <div *ngIf="isLoading" class="loading">
+                Učitavanje kratica na čekanju...
+            </div>
+
+            <div *ngIf="!isLoading && pendingAbbreviations.length > 0" class="pending-list">
+                <div *ngFor="let abbr of pendingAbbreviations" class="pending-item">
+                    <div class="abbr-info">
+                        <div class="abbr-main">
+                            <h4>{{ abbr.abbreviation }} - {{ abbr.meaning }}</h4>
+                            <div class="abbr-meta">
+                                <span class="category">📂 {{ abbr.category }}</span>
+                                <span class="author">👤 Autor: {{ abbr.user.name }}</span>
+                                <span class="date">📅 {{ formatDate(abbr.created_at) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="moderation-actions">
+                        <button class="btn btn-success" (click)="approveAbbreviation(abbr)" role="button" tabindex="0"
+                            (keyup.enter)="approveAbbreviation(abbr)" title="Odobri kraticu">
+                            ✅ Odobri
+                        </button>
+                        <button class="btn btn-danger" (click)="rejectAbbreviation(abbr)" role="button" tabindex="0"
+                            (keyup.enter)="rejectAbbreviation(abbr)" title="Odbij kraticu">
+                            ❌ Odbij
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="!isLoading && pendingAbbreviations.length === 0" class="no-data">
+                Nema kratica na čekanju za odobrenje.
+            </div>
+        </div>
+    </div>
+</div>
