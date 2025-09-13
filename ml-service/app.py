@@ -215,6 +215,59 @@ class MLService:
         
         return max(hour_counts, key=hour_counts.get) if hour_counts else 'morning'
     
+    def get_user_profile_text(self, user_features):
+        """Create textual user profile for TF-IDF similarity scoring"""
+        profile_texts = []
+        
+        # Add user's search history (most important)
+        if user_features.get('search_history'):
+            profile_texts.extend(user_features['search_history'])
+        
+        # Add department context (adds organizational relevance)
+        if user_features.get('department'):
+            profile_texts.append(user_features['department'])
+        
+        # Add preferred categories (interest patterns)
+        if user_features.get('common_categories'):
+            profile_texts.extend(user_features['common_categories'])
+        
+        # Join all texts into a single profile string
+        profile_text = " ".join(profile_texts).lower().strip()
+        
+        return profile_text if profile_text else ""
+    
+    def calculate_text_similarity(self, user_profile_text, abbreviation):
+        """Calculate TF-IDF cosine similarity between user profile and abbreviation"""
+        try:
+            # Skip if no user profile text
+            if not user_profile_text.strip():
+                return 0.0
+            
+            # Create abbreviation text (same format as in find_similar_abbreviations)
+            abbr_text = f"{abbreviation['abbreviation']} {abbreviation['meaning']} {abbreviation.get('description', '')}"
+            
+            # Create corpus: [user_profile, abbreviation_text]
+            corpus = [user_profile_text, abbr_text.lower()]
+            
+            # TF-IDF vectorization (reuse existing configuration)
+            vectorizer = TfidfVectorizer(
+                stop_words='english',
+                ngram_range=(1, 2),
+                max_features=1000
+            )
+            
+            # Vectorize both texts
+            tfidf_matrix = vectorizer.fit_transform(corpus)
+            
+            # Calculate cosine similarity between user profile [0] and abbreviation [1]
+            similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0]
+            
+            return float(similarity)  # Returns 0.0 - 1.0
+            
+        except Exception as e:
+            logger.warning(f"Error calculating text similarity: {e}")
+            return 0.0  # Fallback to no similarity
+    
     def generate_recommendations(self, features, user_data, limit=10):
         """Generate abbreviation recommendations based on user features"""
         try:
@@ -268,22 +321,33 @@ class MLService:
             return []
     
     def calculate_abbreviation_score(self, abbreviation, user_features):
-        """Calculate relevance score for an abbreviation"""
+        """Calculate relevance score for an abbreviation using hybrid scoring with TF-IDF similarity"""
         score = 0.0
         
-        # Department match
+        # RULE-BASED SCORING (adjusted weights to make room for similarity scoring)
+        
+        # Department match (reduced from 3.0 to 2.5)
         if abbreviation.get('department') == user_features['department']:
-            score += 3.0
+            score += 2.5
         
-        # Category preference
+        # Category preference (reduced from 2.0 to 1.5) 
         if abbreviation.get('category') in user_features['common_categories']:
-            score += 2.0
+            score += 1.5
         
-        # Search history relevance
+        # Search history relevance (exact string matching - kept as fallback)
         abbr_text = f"{abbreviation['abbreviation']} {abbreviation['meaning']}".lower()
         for search_term in user_features['search_history']:
             if search_term.lower() in abbr_text:
-                score += 1.5
+                score += 1.0  # Reduced from 1.5 since TF-IDF will handle this better
+        
+        # NEW: TF-IDF SIMILARITY SCORING (main semantic relevance)
+        user_profile_text = self.get_user_profile_text(user_features)
+        similarity_score = self.calculate_text_similarity(user_profile_text, abbreviation)
+        
+        # Give similarity scoring significant weight (0.0 - 3.0 points)
+        score += similarity_score * 3.0
+        
+        # POPULARITY & RECENCY (unchanged)
         
         # Popularity (vote count)
         vote_count = abbreviation.get('votes_count', 0)
@@ -298,8 +362,9 @@ class MLService:
         except:
             pass  # Skip if date parsing fails
         
-        # Normalize score to 0-1 range for consistent display (same as trending scores)
-        normalized_score = min(score / 10.0, 1.0)  # Scale down by dividing by 10
+        # Normalize score to 0-1 range for consistent display 
+        # Max possible score is now: 2.5 + 1.5 + 1.0 + 3.0 + 2.0 + 1.0 = 11.0
+        normalized_score = min(score / 11.0, 1.0)  # Scale down by dividing by 11
         
         return round(max(normalized_score, 0.01), 3)  # Minimum score of 0.01, max 1.0
     
