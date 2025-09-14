@@ -28,7 +28,7 @@ frontend/.angular/
 
 # Backend Dependencies
 backend/vendor/
-backend/composer.lock
+
 
 # Laravel
 backend/.env
