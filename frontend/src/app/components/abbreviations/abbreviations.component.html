@@ -262,10 +262,10 @@
         <select id="sortBy" [(ngModel)]="selectedSortOption" class="sort-select">
           <option value="created_at_desc">Datumu (najnovije prvo)</option>
           <option value="created_at_asc">Datumu (najstarije prvo)</option>
-          <option value="votes_desc">Broju lajkova (najviše prvo)</option>
-          <option value="votes_asc">Broju lajkova (najmanje prvo)</option>
-          <option value="comments_desc">Broju komentara (najviše prvo)</option>
-          <option value="comments_asc">Broju komentara (najmanje prvo)</option>
+          <option value="votes_sum_desc">Broju lajkova (najviše prvo)</option>
+          <option value="votes_sum_asc">Broju lajkova (najmanje prvo)</option>
+          <option value="comments_count_desc">Broju komentara (najviše prvo)</option>
+          <option value="comments_count_asc">Broju komentara (najmanje prvo)</option>
         </select>
 
         <button (click)="applySorting()" class="sort-apply-btn">

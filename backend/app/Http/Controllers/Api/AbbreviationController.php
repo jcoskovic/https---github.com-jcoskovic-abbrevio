@@ -57,7 +57,72 @@ class AbbreviationController extends Controller
             $query->where('department', $request->department);
         }
 
-        $abbreviations = $query->orderBy('created_at', 'desc')->paginate(10);
+        // Handle sorting
+        $sortBy = $request->get('sort', 'created_at');
+        $sortOrder = $request->get('order', 'desc');
+        
+        // Validate sort field to prevent SQL injection
+        $allowedSortFields = [
+            'created_at',
+            'abbreviation', 
+            'meaning',
+            'votes_sum',
+            'comments_count'
+        ];
+        
+        if (!in_array($sortBy, $allowedSortFields)) {
+            $sortBy = 'created_at';
+        }
+        
+        // Validate sort order
+        if (!in_array(strtolower($sortOrder), ['asc', 'desc'])) {
+            $sortOrder = 'desc';
+        }
+        
+        // Apply sorting
+        if ($sortBy === 'votes_sum') {
+            // Sort by net score (upvotes - downvotes) using AbbreviationResource calculation
+            $abbreviations = $query->withCount(['votes', 'comments'])
+                ->with(['votes'])
+                ->get();
+            
+            // Calculate net scores and sort appropriately
+            if ($sortOrder === 'desc') {
+                // Highest net score first (most liked)
+                $abbreviations = $abbreviations->sortByDesc(function ($abbr) {
+                    $upvotes = $abbr->votes->where('type', 'up')->count();
+                    $downvotes = $abbr->votes->where('type', 'down')->count();
+                    return $upvotes - $downvotes;
+                });
+            } else {
+                // Lowest net score first (least liked/most disliked)
+                $abbreviations = $abbreviations->sortBy(function ($abbr) {
+                    $upvotes = $abbr->votes->where('type', 'up')->count();
+                    $downvotes = $abbr->votes->where('type', 'down')->count();
+                    return $upvotes - $downvotes;
+                });
+            }
+            
+            $abbreviations = $abbreviations->values();
+            
+            // Manual pagination since we sorted in PHP
+            $perPage = 10;
+            $currentPage = $request->get('page', 1);
+            $total = $abbreviations->count();
+            $offset = ($currentPage - 1) * $perPage;
+            $items = $abbreviations->slice($offset, $perPage);
+            
+            $paginated = new \Illuminate\Pagination\LengthAwarePaginator(
+                $items, $total, $perPage, $currentPage,
+                ['path' => request()->url(), 'pageName' => 'page']
+            );
+            
+            $abbreviations = $paginated;
+        } elseif ($sortBy === 'comments_count') {
+            $abbreviations = $query->withCount(['comments'])->orderBy('comments_count', $sortOrder)->paginate(10);
+        } else {
+            $abbreviations = $query->orderBy($sortBy, $sortOrder)->paginate(10);
+        }
 
         return response()->json([
             'status' => 'success',

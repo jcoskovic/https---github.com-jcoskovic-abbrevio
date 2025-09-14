@@ -500,11 +500,15 @@ export class AbbreviationsComponent implements OnInit, OnDestroy {
 
     this.searchService.setSorting(sortBy, order);
 
-    // Reset pagination and reload
-    this.resetPaginationAndReload();
+    // Use setTimeout(0) to ensure BehaviorSubject state update completes before API call
+    // Without this, loadAbbreviations() might use old filter state instead of new sorting params
+    setTimeout(() => {
+      // Reset pagination and reload with new sorting
+      this.resetPaginationAndReload();
 
-    // Trigger re-computation of filteredAbbreviations
-    this.sortingTrigger.set(this.sortingTrigger() + 1);
+      // Trigger re-computation of filteredAbbreviations
+      this.sortingTrigger.set(this.sortingTrigger() + 1);
+    }, 0);
   }
 
   // Pagination methods
