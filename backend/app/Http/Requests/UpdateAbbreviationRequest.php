@@ -22,11 +22,8 @@ class UpdateAbbreviationRequest extends FormRequest
      */
     public function rules(): array
     {
-        $abbreviation = $this->route('abbreviation');
-        $abbreviationId = $abbreviation instanceof \App\Models\Abbreviation ? $abbreviation->id : $abbreviation;
-
         return [
-            'abbreviation' => 'sometimes|string|max:50|unique:abbreviations,abbreviation,'.$abbreviationId,
+            'abbreviation' => 'sometimes|string|max:50',
             'meaning' => 'sometimes|string|max:255',
             'category' => 'sometimes|string|max:100',
         ];
@@ -41,7 +38,6 @@ class UpdateAbbreviationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'abbreviation.unique' => 'Ova kratica već postoji.',
             'abbreviation.max' => 'Kratica može imati maksimalno 50 znakova.',
             'meaning.max' => 'Značenje može imati maksimalno 255 znakova.',
             'category.max' => 'Kategorija može imati maksimalno 100 znakova.',

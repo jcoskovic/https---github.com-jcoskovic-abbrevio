@@ -23,7 +23,7 @@ class StoreAbbreviationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'abbreviation' => 'required|string|max:50|unique:abbreviations,abbreviation',
+            'abbreviation' => 'required|string|max:50',
             'meaning' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
             'category' => 'required|string|max:100',
@@ -40,7 +40,6 @@ class StoreAbbreviationRequest extends FormRequest
     {
         return [
             'abbreviation.required' => 'Kratica je obavezna.',
-            'abbreviation.unique' => 'Ova kratica već postoji.',
             'abbreviation.max' => 'Kratica može imati maksimalno 50 znakova.',
             'meaning.required' => 'Značenje je obavezno.',
             'meaning.max' => 'Značenje može imati maksimalno 255 znakova.',
