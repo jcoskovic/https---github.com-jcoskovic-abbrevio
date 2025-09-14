@@ -73,6 +73,7 @@ Route::middleware(['rate.limit:120,1', 'monitor'])->group(function () {
 
         // Export routes
         Route::get('/export/pdf', [ExportController::class, 'exportPdf']);
+        Route::get('/export/test', [ExportController::class, 'testPdf']);
 
         // Moderator routes - content moderation and statistics
         Route::middleware(['jwt.auth', 'verified', 'moderator'])->prefix('moderator')->group(function () {

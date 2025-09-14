@@ -383,7 +383,7 @@ export class AbbreviationsComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error loading abbreviations:', error);
-        this.error.set('Greška pri učitavanju kratica');
+        this.error.set('Greška pri učitavanju skraćenica');
         this.loading.set(false);
         this.loadingMore.set(false);
       },
@@ -726,7 +726,7 @@ export class AbbreviationsComponent implements OnInit, OnDestroy {
 
   private performAddAbbreviation() {
     if (!this.newAbbreviation.abbreviation || !this.newAbbreviation.meaning) {
-      this.notificationService.showError('Molimo unesite kraticu i značenje');
+      this.notificationService.showError('Molimo unesite skraćenicu i značenje');
       return;
     }
 
@@ -737,7 +737,7 @@ export class AbbreviationsComponent implements OnInit, OnDestroy {
         this.loadStats();
         this.resetForm();
         this.showAddForm = false;
-        this.notificationService.showSuccess('Kratica je uspješno dodana!');
+        this.notificationService.showSuccess('skraćenica je uspješno dodana!');
       },
       error: (error) => {
         if (error.error?.email_verification_required) {
@@ -745,7 +745,7 @@ export class AbbreviationsComponent implements OnInit, OnDestroy {
           this.loadCurrentUser();
           this.showEmailVerificationRequired();
         } else {
-          this.error.set('Greška pri dodavanju kratice');
+          this.error.set('Greška pri dodavanju skraćenice');
         }
       },
     });
@@ -763,24 +763,24 @@ export class AbbreviationsComponent implements OnInit, OnDestroy {
       !this.canModerate()
     ) {
       this.notificationService.showError(
-        'Nemate dozvolu za brisanje ove kratice',
+        'Nemate dozvolu za brisanje ove skraćenice',
       );
       return;
     }
 
     const confirmDelete = confirm(
-      `Jeste li sigurni da želite obrisati kraticu "${abbreviation.abbreviation}"?`,
+      `Jeste li sigurni da želite obrisati skraćenicu "${abbreviation.abbreviation}"?`,
     );
     if (!confirmDelete) return;
 
     this.apiService.deleteAbbreviation(abbreviation.id).subscribe({
       next: () => {
-        this.notificationService.showSuccess('Kratica je uspješno obrisana');
+        this.notificationService.showSuccess('skraćenica je uspješno obrisana');
         this.loadAbbreviations();
       },
       error: (error) => {
         const message =
-          error.error?.message || 'Greška prilikom brisanja kratice';
+          error.error?.message || 'Greška prilikom brisanja skraćenice';
         this.notificationService.showError(message);
       },
     });
@@ -1186,7 +1186,7 @@ export class AbbreviationsComponent implements OnInit, OnDestroy {
           },
           error: () => {
             this.loading.set(false);
-            this.notificationService.showError('Greška pri učitavanju kratice');
+            this.notificationService.showError('Greška pri učitavanju skraćenice');
           },
         });
     }

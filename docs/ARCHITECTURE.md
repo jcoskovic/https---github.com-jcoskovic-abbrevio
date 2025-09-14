@@ -30,8 +30,8 @@ Abbrevio je moderna web aplikacija sastavljena od tri glavna dijela:
 
 ### Komponente:
 - **SearchComponent**: Glavna komponenta za pretraživanje
-- **AbbreviationDetailComponent**: Prikaz detalja kratice
-- **AddAbbreviationComponent**: Forma za dodavanje nove kratice
+- **AbbreviationDetailComponent**: Prikaz detalja skraćenice
+- **AddAbbreviationComponent**: Forma za dodavanje nove skraćenice
 - **UserDashboardComponent**: Korisnički dashboard
 - **AuthComponent**: Autentifikacija
 
@@ -67,7 +67,7 @@ backend/
 
 ### Ključni modeli:
 - **User**: Korisnici sistema
-- **Abbreviation**: Kratice
+- **Abbreviation**: skraćenice
 - **Vote**: Glasovi korisnika
 - **Comment**: Komentari
 - **UserInteraction**: Praćenje korisničkih interakcija
@@ -76,9 +76,9 @@ backend/
 ```
 POST   /api/auth/login          # Prijava
 POST   /api/auth/register       # Registracija
-GET    /api/abbreviations       # Lista kratica
-POST   /api/abbreviations       # Nova kratica
-GET    /api/abbreviations/{id}  # Detalji kratice
+GET    /api/abbreviations       # Lista skraćenica
+POST   /api/abbreviations       # Nova skraćenica
+GET    /api/abbreviations/{id}  # Detalji skraćenice
 POST   /api/abbreviations/{id}/vote     # Glasanje
 POST   /api/abbreviations/{id}/comments # Komentiranje
 ```
@@ -86,8 +86,8 @@ POST   /api/abbreviations/{id}/comments # Komentiranje
 ## ML Service (Python Flask)
 
 ### Funkcionalnosti:
-- **Personalizacija**: Preporučuje kratice na osnovu korisničkih preferencija
-- **Clustering**: Grupiranje sličnih kratica
+- **Personalizacija**: Preporučuje skraćenice na osnovu korisničkih preferencija
+- **Clustering**: Grupiranje sličnih skraćenica
 - **Sentiment Analysis**: Analiza komentara
 - **Trend Analysis**: Analiza trendova korištenja
 
@@ -102,7 +102,7 @@ POST   /api/abbreviations/{id}/comments # Komentiranje
 GET  /recommendations/{user_id}  # Personalizirane preporučke
 POST /train                      # Treniranje modela
 POST /track-interaction          # Praćenje interakcija
-POST /similar-abbreviations      # Pronalaženje sličnih kratica
+POST /similar-abbreviations      # Pronalaženje sličnih skraćenica
 ```
 
 ## Database Schema

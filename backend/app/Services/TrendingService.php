@@ -55,7 +55,7 @@ class TrendingService
                                 'score' => $item['score'], // Use ML service score
                                 'user' => $abbreviation->user,
                                 'created_at' => $abbreviation->created_at,
-                                'recommendation_reason' => 'Trending kratice na osnovu ML algoritma',
+                                'recommendation_reason' => 'Trending skraćenice na osnovu ML algoritma',
                             ];
                         }
                     }
@@ -148,7 +148,7 @@ class TrendingService
                     'votes_sum' => (int) ($abbr->getAttribute('vote_score') ?? 0),
                     'similarity_score' => $score, // Keep original score for similarity
                     'score' => $normalizedScore, // Use normalized score for display
-                    'recommendation_reason' => 'Trending kratice na osnovu glasova i komentara (fallback)',
+                    'recommendation_reason' => 'Trending skraćenice na osnovu glasova i komentara (fallback)',
                 ];
             })
             ->toArray();

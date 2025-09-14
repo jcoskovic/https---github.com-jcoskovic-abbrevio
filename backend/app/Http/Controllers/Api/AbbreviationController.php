@@ -158,7 +158,7 @@ class AbbreviationController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Kratica je uspješno dodana',
+            'message' => 'skraćenica je uspješno dodana',
             'data' => new AbbreviationResource($abbreviation),
         ], 201);
     }
@@ -178,7 +178,7 @@ class AbbreviationController extends Controller
         if (Auth::id() !== $abbreviation->user_id && ! $this->isAdmin()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Nemate dozvolu za ažuriranje ove kratice',
+                'message' => 'Nemate dozvolu za ažuriranje ove skraćenice',
             ], 403);
         }
 
@@ -187,7 +187,7 @@ class AbbreviationController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Kratica je uspješno ažurirana',
+            'message' => 'skraćenica je uspješno ažurirana',
             'data' => new AbbreviationResource($abbreviation),
         ]);
     }
@@ -197,7 +197,7 @@ class AbbreviationController extends Controller
         if (Auth::id() !== $abbreviation->user_id && ! $this->isAdmin()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Nemate dozvolu za brisanje ove kratice',
+                'message' => 'Nemate dozvolu za brisanje ove skraćenice',
             ], 403);
         }
 
@@ -205,7 +205,7 @@ class AbbreviationController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Kratica je uspješno obrisana',
+            'message' => 'skraćenica je uspješno obrisana',
         ]);
     }
 
@@ -346,7 +346,7 @@ class AbbreviationController extends Controller
     }
 
     /**
-     * Dobij prijedloge za kraticu
+     * Dobij prijedloge za skraćenicu
      */
     public function getSuggestions(Request $request): JsonResponse
     {

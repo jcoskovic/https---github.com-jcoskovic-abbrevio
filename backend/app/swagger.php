@@ -4,7 +4,7 @@
  * @OA\Info(
  *     title="Abbrevio API",
  *     version="1.0.0",
- *     description="API dokumentacija za Abbrevio aplikaciju za upravljanje kraticama"
+ *     description="API dokumentacija za Abbrevio aplikaciju za upravljanje skraćenicama"
  * )
  *
  * @OA\Server(

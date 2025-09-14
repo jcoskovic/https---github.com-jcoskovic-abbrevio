@@ -374,7 +374,7 @@ export class SuggestionService {
       !suggestion.abbreviation ||
       suggestion.abbreviation.trim().length === 0
     ) {
-      issues.push('Kratica je obavezna.');
+      issues.push('skraćenica je obavezna.');
     }
 
     if (!suggestion.meaning || suggestion.meaning.trim().length === 0) {
@@ -386,7 +386,7 @@ export class SuggestionService {
     }
 
     if (suggestion.abbreviation && suggestion.abbreviation.length > 20) {
-      issues.push('Kratica ne smije biti duža od 20 karaktera.');
+      issues.push('skraćenica ne smije biti duža od 20 karaktera.');
     }
 
     if (suggestion.meaning && suggestion.meaning.length > 200) {
@@ -403,7 +403,7 @@ export class SuggestionService {
       !/^[A-Za-z0-9\-_.]+$/.test(suggestion.abbreviation)
     ) {
       issues.push(
-        'Kratica smije sadržavati samo slova, brojeve, crtice i tačke.',
+        'skraćenica smije sadržavati samo slova, brojeve, crtice i tačke.',
       );
     }
 
@@ -424,7 +424,7 @@ export class SuggestionService {
     }
 
     if (error.status === 401) {
-      return 'Morate biti ulogirani da biste predložili kraticu.';
+      return 'Morate biti ulogirani da biste predložili skraćenicu.';
     }
 
     if (error.status === 403) {
@@ -436,7 +436,7 @@ export class SuggestionService {
     }
 
     if (error.status === 409) {
-      return 'Kratica već postoji ili je prethodno predložena.';
+      return 'skraćenica već postoji ili je prethodno predložena.';
     }
 
     if (error.status === 429) {

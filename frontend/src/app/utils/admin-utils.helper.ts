@@ -68,8 +68,8 @@ export class AdminUtilsHelper {
       delete: `Jeste li sigurni da želite obrisati ${itemName}? Ova akcija se ne može poništiti.`,
       promote: `Jeste li sigurni da želite unaprediti korisnika ${itemName}?`,
       demote: `Jeste li sigurni da želite sniziti prava korisniku ${itemName}?`,
-      approve: `Jeste li sigurni da želite odobriti kraticu ${itemName}?`,
-      reject: `Jeste li sigurni da želite odbiti kraticu ${itemName}?`,
+      approve: `Jeste li sigurni da želite odobriti skraćenicu ${itemName}?`,
+      reject: `Jeste li sigurni da želite odbiti skraćenicu ${itemName}?`,
     };
 
     return (

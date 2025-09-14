@@ -94,7 +94,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">Abbrevio</div>
-            <div class="subtitle">Sistem za upravljanje kraticama</div>
+            <div class="subtitle">Sistem za upravljanje skraćenicama</div>
         </div>
         
         <div class="content">

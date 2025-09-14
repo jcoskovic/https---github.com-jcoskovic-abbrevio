@@ -1,7 +1,7 @@
 {
   "name": "abbrevio",
   "version": "1.0.0",
-  "description": "Web aplikacija za upravljanje kraticama u organizaciji",
+  "description": "Web aplikacija za upravljanje skraćenicama u organizaciji",
   "scripts": {
     "start": "docker-compose up -d",
     "stop": "docker-compose down",

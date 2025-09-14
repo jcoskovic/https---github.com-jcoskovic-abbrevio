@@ -1,6 +1,6 @@
 # 📝 Abbrevio - Modern Abbreviation Management System
 
-> Napredna full-stack aplikacija za upravljanje kraticama s personaliziranim ML preporukama, kompletnim autentifikacionim sustavom i real-time funkcionalnostima.
+> Napredna full-stack aplikacija za upravljanje skraćenicama s personaliziranim ML preporukama, kompletnim autentifikacionim sustavom i real-time funkcionalnostima.
 
 
 
@@ -39,7 +39,7 @@ docker-compose up -d
 
 ## O projektu
 
-Abbrevio je moderna web aplikacija dizajnirana za organizaciju i upravljanje kraticama s naglaskom na korisničko iskustvo i napredne funkcionalnosti. Aplikacija omogućava korisnicima logiranje, podijeljeni su korisnici u tri različita razreda obični korisnici, moderatori (imaju mogućnost odobravanja kratica i brisanja) te admini (sve što i moderatori + upravljanje korisnicima, mogu običnog korisnika unaprijediti u moderatora i moderatora vratiti u običnog korisnika ali ne mogu unaprijediti u admina). Obični korisnici mogu pregledati, tražiti skraćenice praviti ispis u pdf-u, komentirati davati pozitivnu ili negativnu ocjenu. Svaka kratica nakon što je dodana ide na čekanje te je mora moderator ili admin u svom panelu odobriti da bi se prikazivala ostalim korisnicima, ovako se sprječava prekomjerno objavljivanje i spamanje. Klikom na izvezi u pdf otvara se prozor u kojem je moguće odabrati jednu ili više skraćenica te se generira pdf sa tim skraćenicama, generiranje pdf-a je odrađeno putem laravel bladeviewa. Na ekranu se također nalazi button za generiranje ML prijedloga. ML servis, napravljen u pythonu, koristi TF-IDF za analizu podataka, Cosine Similarity za preporuke te Random Forrest za klasifikaciju. Na osnovu podataka o korisniku, njegovih akcija s ostalim kraticama boduje kratice koje on nije pregledavao te ih boduje i prikazuje mu 6 s najvecim brojem bodova. Također, kada korisnik dodaje novu kraticu može upisati naziv i zatražiti prijedlog značenja. Prijedlog značenja se povlači putem Nactem Acromine API-ja koji koristi značenja unesena u Britanski National Centre for Text Mining (NACTEM). Napravljeno je da se na homepageu prikaze prvotno 10 kratica, te da se učitava još 10 po 10 na klik gumba.  
+Abbrevio je moderna web aplikacija dizajnirana za organizaciju i upravljanje skraćenicama s naglaskom na korisničko iskustvo i napredne funkcionalnosti. Aplikacija omogućava korisnicima logiranje, podijeljeni su korisnici u tri različita razreda obični korisnici, moderatori (imaju mogućnost odobravanja skraćenica i brisanja) te admini (sve što i moderatori + upravljanje korisnicima, mogu običnog korisnika unaprijediti u moderatora i moderatora vratiti u običnog korisnika ali ne mogu unaprijediti u admina). Obični korisnici mogu pregledati, tražiti skraćenice praviti ispis u pdf-u, komentirati davati pozitivnu ili negativnu ocjenu. Svaka skraćenica nakon što je dodana ide na čekanje te je mora moderator ili admin u svom panelu odobriti da bi se prikazivala ostalim korisnicima, ovako se sprječava prekomjerno objavljivanje i spamanje. Klikom na izvezi u pdf otvara se prozor u kojem je moguće odabrati jednu ili više skraćenica te se generira pdf sa tim skraćenicama, generiranje pdf-a je odrađeno putem laravel bladeviewa. Na ekranu se također nalazi button za generiranje ML prijedloga. ML servis, napravljen u pythonu, koristi TF-IDF za analizu podataka, Cosine Similarity za preporuke te Random Forrest za klasifikaciju. Na osnovu podataka o korisniku, njegovih akcija s ostalim skraćenicama boduje skraćenice koje on nije pregledavao te ih boduje i prikazuje mu 6 s najvecim brojem bodova. Također, kada korisnik dodaje novu skraćenicu može upisati naziv i zatražiti prijedlog značenja. Prijedlog značenja se povlači putem Nactem Acromine API-ja koji koristi značenja unesena u Britanski National Centre for Text Mining (NACTEM). Napravljeno je da se na homepageu prikaze prvotno 10 skraćenica, te da se učitava još 10 po 10 na klik gumba.  
 
 
 
@@ -75,7 +75,7 @@ Abbrevio je moderna web aplikacija dizajnirana za organizaciju i upravljanje kra
 - ✅ **Email verifikacija** i password reset workflow
 - ✅ **Secure session management** s tokenizacijom
 
-###  Upravljanje kraticama
+###  Upravljanje skraćenicama
 - ✅ **CRUD operacije** s validation i error handling
 - ✅ **Advanced search & filtering** po kategorijama, statusu
 - ✅ **Real-time glasovanje** (upvote/downvote) sustav

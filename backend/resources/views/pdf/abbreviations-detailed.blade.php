@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abbrevio - Izvoz kratica</title>
+    <title>Abbrevio - Izvoz skraćenica</title>
     <style>
         body {
             font-family: 'DejaVu Sans', Arial, sans-serif;
@@ -162,8 +162,8 @@
 <body>
     <div class="header">
         <h1>Abbrevio</h1>
-        <p>Izvoz kratica - {{ $exportDate }}</p>
-        <p>Ukupno: {{ $totalCount }} kratica</p>
+        <p>Izvoz skraćenica - {{ $exportDate }}</p>
+        <p>Ukupno: {{ $totalCount }} skraćenica</p>
     </div>
 
     @if($filters['search'] || $filters['category'])

@@ -38,7 +38,7 @@ class UpdateAbbreviationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'abbreviation.max' => 'Kratica može imati maksimalno 50 znakova.',
+            'abbreviation.max' => 'skraćenica može imati maksimalno 50 znakova.',
             'meaning.max' => 'Značenje može imati maksimalno 255 znakova.',
             'category.max' => 'Kategorija može imati maksimalno 100 znakova.',
         ];

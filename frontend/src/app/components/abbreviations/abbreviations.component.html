@@ -2,7 +2,7 @@
   <!-- Search and Filters -->
   <div class="search-section">
     <div class="search-box">
-      <input type="text" [(ngModel)]="currentSearchTerm" placeholder="Pretraži kratice..." class="search-input"
+      <input type="text" [(ngModel)]="currentSearchTerm" placeholder="Pretraži skraćenice..." class="search-input"
         (keyup.enter)="searchAbbreviations()" />
       <button (click)="searchAbbreviations()" role="button" tabindex="0" (keyup.enter)="searchAbbreviations()"
         class="search-btn">
@@ -55,15 +55,15 @@
             : showEmailVerificationRequired()
         " class="add-btn" [class.disabled]="!canUseProtectedFeatures()" [title]="
           !isEmailVerified()
-            ? 'Potvrdite email adresu za dodavanje kratica'
+            ? 'Potvrdite email adresu za dodavanje skraćenica'
             : ''
         ">
-        {{ showAddForm ? "Otkaži" : "+ Dodaj kraticu" }}
+        {{ showAddForm ? "Otkaži" : "+ Dodaj skraćenicu" }}
       </button>
 
       <!-- Message for non-logged users -->
       <div *ngIf="!userInfoLoading() && !currentUser()" class="login-required-message">
-        <p>Prijavite se za dodavanje kratica</p>
+        <p>Prijavite se za dodavanje skraćenica</p>
         <div class="auth-buttons">
           <button (click)="showLogin()" role="button" tabindex="0" (keyup.enter)="showLogin()" class="login-btn">
             Prijavi se
@@ -121,11 +121,11 @@
 
   <!-- Add Form -->
   <div *ngIf="showAddForm && currentUser()" class="add-form">
-    <h3>Dodaj novu kraticu</h3>
+    <h3>Dodaj novu skraćenicu</h3>
     <form (ngSubmit)="addAbbreviation()" #addForm="ngForm">
       <div class="form-row">
         <input name="abbreviation" [(ngModel)]="newAbbreviation.abbreviation"
-          (ngModelChange)="onAbbreviationChange($event)" placeholder="Kratica (npr. API)" required class="form-input" />
+          (ngModelChange)="onAbbreviationChange($event)" placeholder="skraćenica (npr. API)" required class="form-input" />
         <button type="button" (click)="getSuggestions()" role="button" tabindex="0" (keyup.enter)="getSuggestions()"
           [disabled]="
             !newAbbreviation.abbreviation ||
@@ -175,7 +175,7 @@
 
       <div class="form-row">
         <textarea name="description" [(ngModel)]="newAbbreviation.description"
-          placeholder="Opis (detaljan opis kratice - opcionalno)" rows="3" class="form-textarea"></textarea>
+          placeholder="Opis (detaljan opis skraćenice - opcionalno)" rows="3" class="form-textarea"></textarea>
       </div>
 
       <div class="form-row">
@@ -197,7 +197,7 @@
 
       <div class="form-actions">
         <button type="submit" [disabled]="!addForm.form.valid" class="submit-btn">
-          Dodaj kraticu
+          Dodaj skraćenicu
         </button>
       </div>
     </form>
@@ -229,7 +229,7 @@
       " class="trending-grid">
       <div *ngFor="let item of personalRecommendations()" class="trending-item personal-item"
         (click)="onTrendingClick(item)" (keyup.enter)="onTrendingClick(item)" (keyup.space)="onTrendingClick(item)"
-        tabindex="0" role="button" [attr.aria-label]="'Pregled kratice ' + item.abbreviation">
+        tabindex="0" role="button" [attr.aria-label]="'Pregled skraćenice ' + item.abbreviation">
         <h4>{{ item.abbreviation }}</h4>
         <p>{{ item.meaning }}</p>
       </div>
@@ -256,7 +256,7 @@
   <div *ngIf="!loading() && !error()" class="abbreviations-section">
     <!-- Sorting Controls -->
     <div class="sorting-controls">
-      <h3>📝 Objavljene kratice</h3>
+      <h3>📝 Objavljene skraćenice</h3>
       <div class="sort-options">
         <label for="sortBy">Sortiraj po:</label>
         <select id="sortBy" [(ngModel)]="selectedSortOption" class="sort-select">
@@ -280,7 +280,7 @@
         trackBy: trackByAbbreviationId
       " class="abbreviation-card clickable-card" (click)="showAbbreviationDetails(abbr)"
         (keyup.enter)="showAbbreviationDetails(abbr)" (keyup.space)="showAbbreviationDetails(abbr)" role="button"
-        tabindex="0" [attr.aria-label]="'Otvori detalje kratice ' + abbr.abbreviation">
+        tabindex="0" [attr.aria-label]="'Otvori detalje skraćenice ' + abbr.abbreviation">
         <div class="card-header">
           <h3 class="abbreviation-title">{{ abbr.abbreviation }}</h3>
           <span class="category-badge" *ngIf="abbr.category">{{
@@ -379,7 +379,7 @@
               canModerate())
           ">
             <button (click)="$event.stopPropagation(); deleteAbbreviation(abbr)" role="button" tabindex="0"
-              (keyup.enter)="deleteAbbreviation(abbr)" class="delete-btn" title="Obriši kraticu">
+              (keyup.enter)="deleteAbbreviation(abbr)" class="delete-btn" title="Obriši skraćenicu">
               🗑️
             </button>
           </div>
@@ -430,12 +430,12 @@
     <div class="load-more-section" *ngIf="!loading() && hasMorePages()">
       <button (click)="loadMoreAbbreviations()" role="button" tabindex="0" (keyup.enter)="loadMoreAbbreviations()"
         [disabled]="loadingMore()" class="load-more-btn">
-        <span *ngIf="!loadingMore()">Učitaj više kratica</span>
+        <span *ngIf="!loadingMore()">Učitaj više skraćenica</span>
         <span *ngIf="loadingMore()">Učitavanje...</span>
       </button>
 
       <div class="pagination-info" *ngIf="totalCount() > 0">
-        Prikazano {{ abbreviations().length }} od {{ totalCount() }} kratica
+        Prikazano {{ abbreviations().length }} od {{ totalCount() }} skraćenica
       </div>
     </div>
 
@@ -597,7 +597,7 @@
 
     <!-- Abbreviation Details Modal -->
     <div *ngIf="selectedAbbreviation" class="modal-overlay" (click)="hideAbbreviationDetails()"
-      (keyup.escape)="hideAbbreviationDetails()" tabindex="0" role="dialog" aria-label="Detalji kratice">
+      (keyup.escape)="hideAbbreviationDetails()" tabindex="0" role="dialog" aria-label="Detalji skraćenice">
       <div class="modal-content abbreviation-details-modal" (click)="$event.stopPropagation()"
         (keyup)="$event.stopPropagation()" tabindex="0">
         <div class="modal-header">

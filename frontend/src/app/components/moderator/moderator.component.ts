@@ -106,7 +106,7 @@ export class ModeratorComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error loading pending abbreviations:', error);
-        this.error = 'Greška pri učitavanju kratica na čekanju';
+        this.error = 'Greška pri učitavanju skraćenica na čekanju';
         this.isLoading = false;
       }
     });
@@ -124,7 +124,7 @@ export class ModeratorComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error loading all abbreviations:', error);
-        this.error = 'Greška pri učitavanju svih kratica';
+        this.error = 'Greška pri učitavanju svih skraćenica';
         this.isLoading = false;
       }
     });
@@ -133,13 +133,13 @@ export class ModeratorComponent implements OnInit {
   approveAbbreviation(abbreviation: PendingAbbreviation) {
     this.apiService.approveAbbreviation(abbreviation.id).subscribe({
       next: () => {
-        this.notificationService.showSuccess(`Kratica "${abbreviation.abbreviation}" je odobrena`);
+        this.notificationService.showSuccess(`skraćenica "${abbreviation.abbreviation}" je odobrena`);
         this.pendingAbbreviations = this.pendingAbbreviations.filter(a => a.id !== abbreviation.id);
         this.loadDashboardData(); // Refresh stats
       },
       error: (error: any) => {
         console.error('Error approving abbreviation:', error);
-        this.notificationService.showError('Greška pri odobravanju kratice');
+        this.notificationService.showError('Greška pri odobravanju skraćenice');
       }
     });
   }
@@ -147,13 +147,13 @@ export class ModeratorComponent implements OnInit {
   rejectAbbreviation(abbreviation: PendingAbbreviation) {
     this.apiService.rejectAbbreviation(abbreviation.id).subscribe({
       next: () => {
-        this.notificationService.showSuccess(`Kratica "${abbreviation.abbreviation}" je odbijena`);
+        this.notificationService.showSuccess(`skraćenica "${abbreviation.abbreviation}" je odbijena`);
         this.pendingAbbreviations = this.pendingAbbreviations.filter(a => a.id !== abbreviation.id);
         this.loadDashboardData(); // Refresh stats
       },
       error: (error: any) => {
         console.error('Error rejecting abbreviation:', error);
-        this.notificationService.showError('Greška pri odbijanju kratice');
+        this.notificationService.showError('Greška pri odbijanju skraćenice');
       }
     });
   }

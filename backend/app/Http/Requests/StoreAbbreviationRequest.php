@@ -39,8 +39,8 @@ class StoreAbbreviationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'abbreviation.required' => 'Kratica je obavezna.',
-            'abbreviation.max' => 'Kratica može imati maksimalno 50 znakova.',
+            'abbreviation.required' => 'skraćenica je obavezna.',
+            'abbreviation.max' => 'skraćenica može imati maksimalno 50 znakova.',
             'meaning.required' => 'Značenje je obavezno.',
             'meaning.max' => 'Značenje može imati maksimalno 255 znakova.',
             'description.max' => 'Opis može imati maksimalno 1000 znakova.',

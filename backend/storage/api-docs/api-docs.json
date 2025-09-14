@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Abbrevio API",
-    "description": "API dokumentacija za Abbrevio aplikaciju za upravljanje kraticama",
+    "description": "API dokumentacija za Abbrevio aplikaciju za upravljanje skraćenicama",
     "version": "1.0.0",
     "contact": {
       "email": "admin@abbrevio.dev"

@@ -398,7 +398,7 @@ export class CommentService {
     }
 
     if (error.status === 404) {
-      return 'Komentar ili kratica nisu pronađeni.';
+      return 'Komentar ili skraćenica nisu pronađeni.';
     }
 
     if (error.status && error.status >= 500) {

@@ -201,7 +201,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
           this.isLoadingAbbreviations = false;
         },
         error: () => {
-          this.notificationService.showError('Greška pri učitavanju kratica');
+          this.notificationService.showError('Greška pri učitavanju skraćenica');
           this.isLoadingAbbreviations = false;
         },
       });
@@ -220,7 +220,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.notificationService.showError(
-            'Greška pri učitavanju kratica na čekanju',
+            'Greška pri učitavanju skraćenica na čekanju',
           );
           this.isLoadingPending = false;
         },
@@ -289,10 +289,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   // Abbreviation management methods
   deleteAbbreviation(abbreviationId: number): void {
     const abbr = this.abbreviations.find((a) => a.id === abbreviationId);
-    const abbrName = abbr ? abbr.abbreviation : 'kraticu';
+    const abbrName = abbr ? abbr.abbreviation : 'skraćenicu';
 
     const confirmDelete = confirm(
-      `Jeste li sigurni da želite obrisati kraticu "${abbrName}"?`,
+      `Jeste li sigurni da želite obrisati skraćenicu "${abbrName}"?`,
     );
     if (!confirmDelete) return;
 
@@ -302,13 +302,13 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.notificationService.showSuccess(
-            'Kratica je uspješno obrisana',
+            'skraćenica je uspješno obrisana',
           );
           this.loadAbbreviations();
           this.loadStatistics();
         },
         error: () => {
-          this.notificationService.showError('Greška pri brisanju kratice');
+          this.notificationService.showError('Greška pri brisanju skraćenice');
         },
       });
   }
@@ -320,12 +320,12 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.notificationService.showSuccess('Kratica je odobrena');
+          this.notificationService.showSuccess('skraćenica je odobrena');
           this.loadPendingAbbreviations();
           this.loadStatistics();
         },
         error: () => {
-          this.notificationService.showError('Greška pri odobravanju kratice');
+          this.notificationService.showError('Greška pri odobravanju skraćenice');
         },
       });
   }
@@ -336,12 +336,12 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.notificationService.showSuccess('Kratica je odbijena');
+          this.notificationService.showSuccess('skraćenica je odbijena');
           this.loadPendingAbbreviations();
           this.loadStatistics();
         },
         error: () => {
-          this.notificationService.showError('Greška pri odbijanju kratice');
+          this.notificationService.showError('Greška pri odbijanju skraćenice');
         },
       });
   }

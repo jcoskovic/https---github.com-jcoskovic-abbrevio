@@ -16,7 +16,8 @@ class ExportController extends Controller
     public function exportPdf(ExportPdfRequest $request): Response
     {
         // Build query
-        $query = Abbreviation::with(['user', 'votes', 'comments.user']);
+        $query = Abbreviation::with(['user', 'votes', 'comments.user'])
+            ->where('status', 'approved'); // Only export approved abbreviations
 
         // Filter by specific IDs if provided
         if ($request->has('abbreviation_ids') && ! empty($request->abbreviation_ids)) {
@@ -68,6 +69,54 @@ class ExportController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Failed to generate PDF: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Test PDF generation step by step
+     */
+    public function testPdf(): Response
+    {
+        try {
+            // Step 1: Test data
+            $abbreviations = collect([
+                (object) [
+                    'id' => 1,
+                    'abbreviation' => 'TEST',
+                    'meaning' => 'Test Meaning',
+                    'description' => 'Test Description',
+                    'category' => 'Test Category',
+                    'user' => (object) ['name' => 'Test User'],
+                    'votes' => collect([]),
+                    'comments' => collect([]),
+                    'created_at' => now()
+                ]
+            ]);
+
+            // Step 2: Test template rendering
+            $html = view('pdf.abbreviations-simple', [
+                'abbreviations' => $abbreviations,
+                'exportDate' => now()->format('d.m.Y H:i'),
+                'totalCount' => 1,
+                'filters' => ['search' => null, 'category' => null],
+            ])->render();
+
+            // Step 3: Test PDF generation
+            $pdf = Pdf::loadHTML($html);
+            
+            return response()->json([
+                'status' => 'success',
+                'message' => 'PDF test successful',
+                'html_length' => strlen($html),
+                'html_preview' => substr($html, 0, 200) . '...'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'PDF test failed: ' . $e->getMessage(),
+                'trace' => $e->getTraceAsString()
             ], 500);
         }
     }

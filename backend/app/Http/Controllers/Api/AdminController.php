@@ -104,7 +104,7 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Greška pri učitavanju kratica',
+                'message' => 'Greška pri učitavanju skraćenica',
             ], 500);
         }
     }
@@ -127,7 +127,7 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Greška pri učitavanju kratica na čekanju',
+                'message' => 'Greška pri učitavanju skraćenica na čekanju',
             ], 500);
         }
     }
@@ -265,12 +265,12 @@ class AdminController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Kratica uspješno odobrena',
+                'message' => 'skraćenica uspješno odobrena',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Greška pri odobravanju kratice',
+                'message' => 'Greška pri odobravanju skraćenice',
             ], 500);
         }
     }
@@ -295,12 +295,12 @@ class AdminController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Kratica uspješno odbijena',
+                'message' => 'skraćenica uspješno odbijena',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Greška pri odbijanju kratice',
+                'message' => 'Greška pri odbijanju skraćenice',
             ], 500);
         }
     }

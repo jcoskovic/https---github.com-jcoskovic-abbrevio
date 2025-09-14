@@ -72,10 +72,15 @@ COPY --from=builder /var/www /var/www
 # Copy custom PHP configuration
 COPY docker/backend/php.ini /usr/local/etc/php/conf.d/custom.ini
 
-# Set permissions
+# Set permissions and clear caches
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage \
-    && chmod +x /var/www/artisan
+    && chmod -R 755 /var/www/bootstrap/cache \
+    && chmod +x /var/www/artisan \
+    && php artisan cache:clear || true \
+    && php artisan config:clear || true \
+    && php artisan view:clear || true \
+    && php artisan route:clear || true
 
 EXPOSE 8000
 

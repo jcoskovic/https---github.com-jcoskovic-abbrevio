@@ -57,12 +57,8 @@ export class PdfExportModalComponent implements OnInit {
     private async loadData(): Promise<void> {
         this.isLoading = true;
         try {
-            // Load abbreviations
-            const abbreviationsResponse = await this.abbreviationService.getAbbreviations().toPromise();
-            if (abbreviationsResponse?.data?.data) {
-                this.abbreviations = abbreviationsResponse.data.data;
-                this.filteredAbbreviations = [...this.abbreviations];
-            }
+            // Load ALL abbreviations by fetching all pages
+            await this.loadAllAbbreviations();
 
             // Load categories
             const categoriesResponse = await this.abbreviationService.getCategories().toPromise();
@@ -75,6 +71,37 @@ export class PdfExportModalComponent implements OnInit {
         } finally {
             this.isLoading = false;
         }
+    }
+
+    private async loadAllAbbreviations(): Promise<void> {
+        const allAbbreviations: Abbreviation[] = [];
+        let page = 1;
+        let hasMore = true;
+
+        while (hasMore) {
+            try {
+                const response = await this.abbreviationService.getAbbreviations({ page }).toPromise();
+                
+                if (response?.data?.data) {
+                    allAbbreviations.push(...response.data.data);
+                    
+                    // Check if we have more pages
+                    const currentPage = response.data.current_page;
+                    const lastPage = response.data.last_page;
+                    hasMore = currentPage < lastPage;
+                    page++;
+                } else {
+                    hasMore = false;
+                }
+            } catch (error) {
+                console.error(`Error loading page ${page}:`, error);
+                hasMore = false;
+            }
+        }
+
+        this.abbreviations = allAbbreviations;
+        this.filteredAbbreviations = [...this.abbreviations];
+        console.log(`Loaded ${allAbbreviations.length} abbreviations for PDF export`);
     }
 
     onSearchChange(): void {

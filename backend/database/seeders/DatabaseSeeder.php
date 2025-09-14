@@ -204,7 +204,7 @@ class DatabaseSeeder extends Seeder
                 'status' => 'approved',
             ],
 
-            // Medicinske kratice
+            // Medicinske skraćenice
             [
                 'abbreviation' => 'CT',
                 'meaning' => 'Computed Tomography',
@@ -279,7 +279,7 @@ class DatabaseSeeder extends Seeder
 
         // Add diverse comments for ML training data
         $comments = [
-            ['abbreviation' => 'API', 'content' => 'Vrlo korisna kratica u IT svijetu! Svaki developer mora znati.'],
+            ['abbreviation' => 'API', 'content' => 'Vrlo korisna skraćenica u IT svijetu! Svaki developer mora znati.'],
             ['abbreviation' => 'API', 'content' => 'Temelj moderne web arhitekture.'],
             ['abbreviation' => 'AI', 'content' => 'Budućnost tehnologije je već ovdje!'],
             ['abbreviation' => 'AI', 'content' => 'Fascinantno kako brzo se razvija ova oblast.'],

@@ -307,7 +307,7 @@ describe('AdminDashboardComponent', () => {
 
     expect(adminService.approveAbbreviation).toHaveBeenCalledWith(1);
     expect(notificationService.showSuccess).toHaveBeenCalledWith(
-      'Kratica je odobrena',
+      'skraćenica je odobrena',
     );
   });
 
@@ -320,7 +320,7 @@ describe('AdminDashboardComponent', () => {
 
     expect(adminService.rejectAbbreviation).toHaveBeenCalledWith(1);
     expect(notificationService.showSuccess).toHaveBeenCalledWith(
-      'Kratica je odbijena',
+      'skraćenica je odbijena',
     );
   });
 
