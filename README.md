@@ -8,15 +8,15 @@
 ``` Korisnici za testiranje
  Administrator
 Email: admin@abbrevio.test  
-Password: admin123
+Password: admin1234
 
  Standardni korisnik  
 Email: user@abbrevio.test
-Password: user123
+Password: user1234
 
  Moderator
 Email: moderator@abbrevio.test
-Password: moderator123
+Password: moderator1234
 ```
 
 ### ⚡ 5-minutno pokretanje
@@ -26,12 +26,16 @@ cd https---github.com-jcoskovic-abbrevio  # ili cd <ime-foldera> ako si klonirao
 docker compose build               # Build svih servisa
 docker compose up -d               # Pokreni sve servise
 # Čekaj ~2 minute da se sve servisi podignu
+docker compose exec backend php artisan migrate:fresh --seed #komanda za migracije i slanje seed podataka u bazu
+
+docker compose exec backend php artisan jwt:secret # komanda za postavljanje novog, sigurnog jwt ključa, testna verzija je postavljena već, no u slučaju produkcije nije siguran taj ključ
+
 
 # Ako backend kontejner ima probleme sa vendor mapom:
 cd backend
 cp .env.example .env               # Stvori konfiguraciju
-mkdir -p bootstrap\cache           # Stvori cache direktorij
-mkdir -p storage\framework\sessions storage\framework\views storage\framework\cache  # Stvori framework direktorije
+mkdir -Force bootstrap\cache       # Stvori cache direktorij
+mkdir -Force storage\framework\sessions, storage\framework\views, storage\framework\cache  # Stvori framework direktorije
 composer install                   # Instaliraj PHP ovisnosti  
 php artisan key:generate           # Generiraj app ključ
 cd ..

@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $admin = User::create([
             'name' => 'Administrator',
             'email' => 'admin@abbrevio.test',
-            'password' => bcrypt('admin123'),
+            'password' => bcrypt('admin1234'),
             'role' => 'admin',
             'email_verified_at' => now(),
         ]);
@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         $moderator = User::create([
             'name' => 'Moderator',
             'email' => 'moderator@abbrevio.test',
-            'password' => bcrypt('moderator123'),
+            'password' => bcrypt('moderator1234'),
             'role' => 'moderator',
             'email_verified_at' => now(),
         ]);
@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         $user1 = User::create([
             'name' => 'Test User',
             'email' => 'user@abbrevio.test',
-            'password' => bcrypt('user123'),
+            'password' => bcrypt('user1234'),
             'role' => 'user',
             'email_verified_at' => now(),
         ]);
