@@ -22,7 +22,7 @@ Password: moderator123
 ### ⚡ 5-minutno pokretanje
 ```bash
 git clone <repository-url>
-cd abbrevio
+cd https---github.com-jcoskovic-abbrevio  # ili cd <ime-foldera> ako si klonirao pod drugim imenom
 docker compose build               # Build svih servisa
 docker compose up -d               # Pokreni sve servise
 # Čekaj ~2 minute da se sve servisi podignu
@@ -146,7 +146,7 @@ Najjednostavniji način pokretanja cijele aplikacije:
 ```bash
 # Kloniraj repozitorij
 git clone <repository-url>
-cd abbrevio
+cd https---github.com-jcoskovic-abbrevio  # ili cd <ime-foldera> ako si klonirao pod drugim imenom
 
 # Pokreni sve servise
 docker-compose up -d
