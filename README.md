@@ -22,9 +22,20 @@ Password: moderator123
 ### ⚡ 5-minutno pokretanje
 ```bash
 git clone <repository-url>
-cd abbrevio-handoff
-docker-compose up -d
+cd abbrevio
+docker compose build               # Build svih servisa
+docker compose up -d               # Pokreni sve servise
 # Čekaj ~2 minute da se sve servisi podignu
+
+# Ako backend kontejner ima probleme sa vendor mapom:
+cd backend
+cp .env.example .env               # Stvori konfiguraciju
+mkdir -p bootstrap\cache           # Stvori cache direktorij
+mkdir -p storage\framework\sessions storage\framework\views storage\framework\cache  # Stvori framework direktorije
+composer install                   # Instaliraj PHP ovisnosti  
+php artisan key:generate           # Generiraj app ključ
+cd ..
+docker-compose restart backend     # Restartaj backend
 
 
 # Aplikacija će biti dostupna na:
